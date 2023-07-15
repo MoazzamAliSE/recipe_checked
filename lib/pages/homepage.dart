@@ -19,9 +19,9 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  late File image;
-  late String _imageCaptureChoice;
-  late List _output;
+  File? image;
+  String? _imageCaptureChoice;
+  List? _output;
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _HomepageState extends State<Homepage> {
     } on PlatformException {
       print('Failed to pick image');
     }
-    classifyImage(image);
+    classifyImage(image!);
   }
 
   Future pickImageCamera() async {
@@ -85,7 +85,7 @@ class _HomepageState extends State<Homepage> {
     } on PlatformException {
       print('Failed to pick image');
     }
-    classifyImage(image);
+    classifyImage(image!);
   }
 
   @override
@@ -168,7 +168,7 @@ class _HomepageState extends State<Homepage> {
                     aspectRatio: 1 / 1.15,
                     child: image != null
                         ? Image.file(
-                            image,
+                            image!,
                             width: 100,
                             height: 400,
                             fit: BoxFit.cover,
@@ -179,7 +179,7 @@ class _HomepageState extends State<Homepage> {
                             decoration: const BoxDecoration(
                               image: DecorationImage(
                                   image: NetworkImage(
-                                      'https://solidstarts.com/wp-content/uploads/when-can-babies-eat-eggs.jpg'),
+                                      'https://tlc.sndimg.com/content/dam/images/tlc/tlcme/fullset/2021/december/LEAD_study-eggs-allergy-GettyImages-1340706363.jpg.rend.hgtvcom.476.317.suffix/1640116106757.jpeg'),
                                   fit: BoxFit.cover),
                             ),
                             child: Stack(
@@ -212,7 +212,7 @@ class _HomepageState extends State<Homepage> {
                           onPressed: () {
                             // Get list of ingredient
                             List ingredients = [];
-                            for (var i in _output) {
+                            for (var i in _output!) {
                               ingredients.add(i['label']);
                             }
                             Navigator.push(
@@ -220,7 +220,7 @@ class _HomepageState extends State<Homepage> {
                               MaterialPageRoute(
                                   builder: (context) =>
                                       IngredientConfirmationPage(
-                                          ingredients, image)),
+                                          ingredients, image!)),
                             );
                             print('add to store');
                           },

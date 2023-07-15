@@ -11,12 +11,21 @@ class AppUser {
 
   AppUser({required this.email, required this.displayName, required this.uid});
 
+  // factory AppUser.createAppuserFromFirestore(DocumentSnapshot doc) {
+  //   Map data = doc.data() as Map;
+  //   AppUser x = AppUser(
+  //       displayName: data['displayName'] ?? '',
+  //       email: data['email'] ?? '',
+  //       uid: doc.id);
+  //   return x;
+  // }
   factory AppUser.createAppuserFromFirestore(DocumentSnapshot doc) {
-    Map data = doc.data() as Map;
+    Map? data = doc.data() as Map?;
     AppUser x = AppUser(
-        displayName: data['displayName'] ?? '',
-        email: data['email'] ?? '',
-        uid: doc.id);
+      displayName: data?['displayName'] ?? '',
+      email: data?['email'] ?? '',
+      uid: doc.id,
+    );
     return x;
   }
 
@@ -33,5 +42,14 @@ class AppUser {
   static Stream<AppUser>? getCurrentUser() {
     User? currUser = AuthenticationController().getCurrUserFromFirebase();
     return (currUser == null) ? null : getUserFromID(currUser.uid);
+  }
+
+  // Define a default user constructor or method
+  factory AppUser.defaultUser() {
+    return AppUser(
+      displayName: 'Unknown',
+      email: '',
+      uid: '',
+    );
   }
 }

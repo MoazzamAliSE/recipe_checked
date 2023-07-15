@@ -49,22 +49,63 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  User? currUser;
+  String? uid;
+  AppUser? initialData;
+  @override
+  void initState() {
+    super.initState();
+    doSomeAsyncStuff();
+  }
+
+  Future<void> doSomeAsyncStuff() async {
+    currUser = FirebaseAuth.instance.currentUser;
+
+    uid = (currUser == null) ? null : currUser!.uid;
+
+    initialData = (uid == null)
+        ? null
+        : AppUser.createAppuserFromFirestore(
+            await FirebaseFirestore.instance.collection('users').doc(uid).get(),
+          );
+
+    print("initialData");
+    print(initialData);
+  }
+
   @override
   Widget build(BuildContext context) {
-    User? currUser = FirebaseAuth.instance.currentUser;
+    // User? currUser = FirebaseAuth.instance.currentUser;
 
-    String? uid = (currUser == null) ? null : currUser.uid;
+    // String? uid = (currUser == null) ? null : currUser.uid;
+// Create initial AppUser object from DocumentSnapshot
 
     return MultiProvider(
         providers: [
           StreamProvider<AppUser>.value(
-            initialData: AppUser.createAppuserFromFirestore(
-                uid as DocumentSnapshot<Object?>),
+            catchError: (context, error) {
+              // Handle and process the error here
+              print('Error occurred in AppUser stream: $error');
+              // Return a default user object or null
+              return AppUser.defaultUser(); // Option 1: Default user object
+              // return null; // Option 2: Return null
+            },
+            initialData: initialData ??
+                AppUser(
+                    email: '', displayName: '', uid: ''), ///// yaha error yay
+            // //
+            //
+            //
+            //
+            //
+            //
+
             value: AppUser.getUserFromID(uid),
           )
         ],
         child: Consumer<ThemeNotifier>(
           builder: (context, theme, _) => MaterialApp(
+            debugShowCheckedModeBanner: false,
             theme: theme.getTheme(),
             initialRoute: '/',
             routes: {

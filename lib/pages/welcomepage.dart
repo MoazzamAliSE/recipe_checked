@@ -7,6 +7,8 @@ import 'package:recipe_checked/controllers/loginController.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class WelcomePage extends StatelessWidget {
+  const WelcomePage({super.key});
+
   @override
   Widget build(BuildContext context) {
     if (FirebaseAuth.instance.currentUser != null) LoginController().signOut();
@@ -17,7 +19,7 @@ class WelcomePage extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: size.height,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -25,17 +27,19 @@ class WelcomePage extends StatelessWidget {
               Column(
                 children: <Widget>[
                   Text("Welcome to Recipe Ventures",
-                      style: Theme.of(context).textTheme.headline3,
+                      style: Theme.of(context).textTheme.displaySmall,
                       textAlign: TextAlign.center),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                 ],
               ),
               Container(
-                height: size.height / 3,
-                decoration: BoxDecoration(
+                height: size.height / 4,
+                decoration: const BoxDecoration(
                     image: DecorationImage(
-                        image:
-                            AssetImage("assets/images/Recipe Ventures.png"))),
+                  image: AssetImage(
+                    "assets/images/Recipe Ventures.png",
+                  ),
+                )),
               ),
               Column(
                 children: <Widget>[
@@ -51,14 +55,14 @@ class WelcomePage extends StatelessWidget {
                                 builder: (context) => LoginPage()));*/
                       },
                       shape: RoundedRectangleBorder(
-                          side: BorderSide(
+                          side: const BorderSide(
                             width: 2.5,
                             color: Colors.black,
                           ),
                           borderRadius: BorderRadius.circular(50)),
                       child: Text("Login",
-                          style: Theme.of(context).textTheme.button)),
-                  SizedBox(height: 20),
+                          style: Theme.of(context).textTheme.labelLarge)),
+                  const SizedBox(height: 20),
                   MaterialButton(
                       minWidth: double.infinity,
                       height: 60,
@@ -78,10 +82,11 @@ class WelcomePage extends StatelessWidget {
                                 builder: (context) => SignupPage()));*/
                       },
                       shape: RoundedRectangleBorder(
-                          side: BorderSide(width: 2.5, color: Colors.black),
+                          side:
+                              const BorderSide(width: 2.5, color: Colors.black),
                           borderRadius: BorderRadius.circular(50)),
                       child: Text("Sign Up",
-                          style: Theme.of(context).textTheme.button)),
+                          style: Theme.of(context).textTheme.labelLarge)),
                 ],
               )
             ],

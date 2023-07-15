@@ -73,6 +73,7 @@ class SignupPage extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium),
                   const SizedBox(height: 5),
                   TextField(
+                      keyboardType: TextInputType.emailAddress,
                       controller: myEmailController,
                       decoration: const InputDecoration(
                           contentPadding:
@@ -201,7 +202,10 @@ class SignupPage extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  const Text("Already have an account?"),
+                  Text(
+                    "Already have an account?",
+                    style: Theme.of(context).textTheme.bodySmall,
+                  ),
                   TextButton(
                       child: Text("Log in",
                           style: Theme.of(context).textTheme.labelLarge),

@@ -17,15 +17,15 @@ class Store extends StatefulWidget {
 
 class _StoreState extends State<Store> {
   late TextEditingController _nameController;
-late  TextEditingController _quantityController;
- late DateTime selectedDate;
+  late TextEditingController _quantityController;
+  DateTime selectedDate = DateTime.now();
   String _expiry = '-';
   String _chosenUnit = 'units';
   bool _checkboxVisible = false;
   String recipeGetter = 'Generate Recipes';
   bool _selectAll = false;
-late  String _ingredientName;
- late String _quantity;
+  late String _ingredientName;
+  late String _quantity;
   StoreController sc = StoreController();
   List<String> ingredients = [];
 
@@ -115,8 +115,8 @@ late  String _ingredientName;
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
-                            Text("Please input unit of item:",
-                                style: Theme.of(context).textTheme.bodyMedium),
+                            Text("unit of item:",
+                                style: Theme.of(context).textTheme.bodySmall),
                             DropdownButton<String>(
                               value: _chosenUnit,
                               items: <String>[

@@ -17,8 +17,9 @@ class Wrapper extends StatelessWidget {
     // String uid = globals.currUserId;
 
     if (user == null) {
-      return WelcomePage();
+      return const WelcomePage();
     } else if (appUser.uid != user.uid) {
+      print("loading user");
       return const Loading();
     } else {
       // return Homepage();

@@ -142,6 +142,141 @@ class _IngredientComponentState extends State<IngredientComponent> {
     }
   }
 
+  // _editNameAndExpiry(BuildContext context) {
+  //   return showDialog(
+  //       context: context,
+  //       builder: (context) {
+  //         return StatefulBuilder(
+  //             builder: (BuildContext context, StateSetter setState) {
+  //           return AlertDialog(
+  //             content: SingleChildScrollView(
+  //               child: Column(
+  //                   crossAxisAlignment: CrossAxisAlignment.stretch,
+  //                   mainAxisSize: MainAxisSize.min,
+  //                   children: [
+  //                     Text("Please input ingredient name:",
+  //                         style: Theme.of(context).textTheme.bodyMedium),
+  //                     TextField(
+  //                         onChanged: (newName) {
+  //                           setState(() {
+  //                             widget.ingredientName = newName;
+  //                             if (globals.finalIngredients.isNotEmpty) {
+  //                               globals.finalIngredients
+  //                                       .elementAt(widget.cfmIndex)['name'] =
+  //                                   newName;
+  //                             }
+  //                           });
+  //                         },
+  //                         controller: _nameController),
+  //                     const Divider(
+  //                       height: 20,
+  //                     ),
+  //                     Text("Please input quantity:",
+  //                         style: Theme.of(context).textTheme.bodyMedium),
+  //                     Row(
+  //                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //                         children: [
+  //                           Flexible(
+  //                             child: TextField(
+  //                               keyboardType: TextInputType.number,
+  //                               onChanged: (newQuantity) {
+  //                                 setState(() {
+  //                                   widget.chosenQuantity = newQuantity;
+  //                                   if (globals.finalIngredients.isNotEmpty) {
+  //                                     globals.finalIngredients.elementAt(
+  //                                             widget.cfmIndex)['quantity'] =
+  //                                         int.parse(newQuantity);
+  //                                   }
+  //                                 });
+  //                               },
+  //                               controller: _quantityController,
+  //                             ),
+  //                           ),
+  //                           DropdownButton<String>(
+  //                             value: widget.chosenUnit,
+  //                             items: <String>['g', 'kg', 'ml', 'litre', 'units']
+  //                                 .map<DropdownMenuItem<String>>((String qty) {
+  //                               return DropdownMenuItem<String>(
+  //                                 value: qty,
+  //                                 child: Text(qty,
+  //                                     style: Theme.of(context)
+  //                                         .textTheme
+  //                                         .bodySmall),
+  //                               );
+  //                             }).toList(),
+  //                             onChanged: (String? unit) {
+  //                               setState(() {
+  //                                 widget.chosenUnit = unit!;
+  //                                 if (globals.finalIngredients.isNotEmpty) {
+  //                                   globals.finalIngredients.elementAt(
+  //                                       widget.cfmIndex)['metric'] = unit;
+  //                                 }
+  //                               });
+  //                             },
+  //                           ),
+  //                         ]),
+  //                     const Divider(
+  //                       height: 20,
+  //                     ),
+  //                     Text("Please input expiry date of item:",
+  //                         style: Theme.of(context).textTheme.bodyMedium),
+  //                     Row(
+  //                         mainAxisAlignment: MainAxisAlignment.spaceAround,
+  //                         children: [
+  //                           Text(_expiry,
+  //                               style: Theme.of(context).textTheme.bodySmall),
+  //                           Text(DateFormat('yyyy-MM-dd').format(_alertExpiry),
+  //                               style: TextStyle(
+  //                                   fontSize: 12,
+  //                                   color: _setTextColor(_alertExpiry))),
+  //                           IconButton(
+  //                             icon: Icon(
+  //                               Icons.calendar_today,
+  //                               color: Theme.of(context).colorScheme.secondary,
+  //                             ),
+  //                             onPressed: () => _selectDate(context),
+  //                           ),
+  //                         ]),
+  //                   ]),
+  //             ),
+  //             actions: [
+  //               Row(
+  //                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  //                 children: [
+  //                   MaterialButton(
+  //                       child: const Text('ok'),
+  //                       onPressed: () {
+  //                         sc.updateIngredient(
+  //                             ingredientId: widget.ingredientID,
+  //                             ingredientDetails: {
+  //                               "name": _nameController.text,
+  //                               "quantity": int.parse(_quantityController.text),
+  //                               "expiryDate": _alertExpiry,
+  //                               "metric": widget.chosenUnit
+  //                             });
+  //                         _nameController.clear();
+  //                         _quantityController.clear();
+  //                         setState(() {
+  //                           widget.expiryDate = _alertExpiry;
+  //                           _checkExpiry(widget.expiryDate);
+  //                           _setTextColor(widget.expiryDate);
+  //                         });
+  //                         Navigator.pop(context);
+  //                       }),
+  //                 ],
+  //               )
+  //             ],
+  //           );
+  //         });
+  //       });
+  // }  //old
+
+  //
+  //
+  ///
+  ///
+  ///
+  ///
   _editNameAndExpiry(BuildContext context) {
     return showDialog(
         context: context,
@@ -171,8 +306,10 @@ class _IngredientComponentState extends State<IngredientComponent> {
                       const Divider(
                         height: 20,
                       ),
-                      Text("Please input quantity:",
-                          style: Theme.of(context).textTheme.bodyMedium),
+                      Text(
+                        "Please input quantity:",
+                        style: Theme.of(context).textTheme.bodyMedium,
+                      ),
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -180,12 +317,25 @@ class _IngredientComponentState extends State<IngredientComponent> {
                               child: TextField(
                                 keyboardType: TextInputType.number,
                                 onChanged: (newQuantity) {
+                                  // Error handling for non-numeric input
+                                  int? parsedQuantity =
+                                      int.tryParse(newQuantity);
                                   setState(() {
-                                    widget.chosenQuantity = newQuantity;
-                                    if (globals.finalIngredients.isNotEmpty) {
-                                      globals.finalIngredients.elementAt(
-                                              widget.cfmIndex)['quantity'] =
-                                          int.parse(newQuantity);
+                                    if (parsedQuantity != null) {
+                                      widget.chosenQuantity = newQuantity;
+                                      if (globals.finalIngredients.isNotEmpty) {
+                                        globals.finalIngredients.elementAt(
+                                                widget.cfmIndex)['quantity'] =
+                                            parsedQuantity;
+                                      }
+                                    } else {
+                                      // Handle non-numeric input gracefully
+                                      // For example, you can set a default value or display an error message
+                                      widget.chosenQuantity = '';
+                                      if (globals.finalIngredients.isNotEmpty) {
+                                        globals.finalIngredients.elementAt(
+                                            widget.cfmIndex)['quantity'] = 0;
+                                      }
                                     }
                                   });
                                 },

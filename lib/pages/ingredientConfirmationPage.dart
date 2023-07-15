@@ -82,13 +82,13 @@ class _IngredientConfirmationPageState
           ),
           Expanded(
             child: ListView(
-              padding: const EdgeInsets.all(20.0),
+              // padding: const EdgeInsets.all(20.0),
               children: _generateList(widget
                   .ingredientList), // <<<<< Note this change for the return type
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(12.0),
+            padding: const EdgeInsets.all(8.0),
             child: ElevatedButton(
               onPressed: () {
                 // Send to store
